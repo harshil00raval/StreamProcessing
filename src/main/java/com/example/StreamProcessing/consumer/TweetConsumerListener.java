@@ -3,6 +3,9 @@ package com.example.StreamProcessing.consumer;
 import com.example.StreamProcessing.domain.Tweet;
 import com.example.StreamProcessing.filter.Filter;
 import javaslang.control.Option;
+import org.apache.kafka.common.utils.AppInfoParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.handler.annotation.Headers;
@@ -17,8 +20,40 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+/*
+* filter :{
+* condition : {
+*   user :
+*   location :
+*   hashtag :
+*   no of tweets :
+* }
+* Condition: {
+*   location : Karnataka
+*   no of tweets : 10000
+* }
+* }
+*
+*
+* filter :{
+ * condition : {
+ *   user :
+ *   location :
+ * }
+ * }
+ *
+ * filter :{
+ * condition : {
+ *   user : 25
+ *   location : Bang
+ * }
+ * }   ==> XXY
+* */
+
 @Service
 public class TweetConsumerListener implements TweetConsumer{
+
+    private static final Logger log = LoggerFactory.getLogger(AppInfoParser.class);
 
     //Check for concurency issues for multiple requests
     List<Filter> filters = new ArrayList<>();
@@ -27,6 +62,7 @@ public class TweetConsumerListener implements TweetConsumer{
             containerFactory = "kafkaListenerContainerFactory")
     public void consumeJson(@Payload String tweet, @Headers MessageHeaders headers) {
         System.out.println("Message from kafka: " + tweet.toString());
+        log.info("print this to test");
 
         publishToAllFilters(format(tweet));
     }

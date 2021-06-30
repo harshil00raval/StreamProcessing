@@ -1,4 +1,4 @@
-package com.example.StreamProcessing;
+package com.example.RPInMemDB;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

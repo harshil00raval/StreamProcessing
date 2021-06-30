@@ -26,6 +26,7 @@ public class  NumberFilter implements Filter{
 
     @Override public void process(Tweet tweet) {
 
+
         if(user.equals(tweet.getUser())){
             tweets.add(tweet);
             if(noOfTweets == tweets.size()){
